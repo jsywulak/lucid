@@ -23,11 +23,11 @@ resource "aws_launch_configuration" "sam-code-test" {
 
 resource "aws_autoscaling_group" "sam-code-test" {
   name                      = "sam-code-test"
-  max_size                  = 0
-  min_size                  = 0
+  max_size                  = 2
+  min_size                  = 2
   health_check_grace_period = 300
-  #  health_check_type         = "ELB"
-  desired_capacity     = 0
+  health_check_type         = "ELB"
+  desired_capacity     = 2
   force_delete         = true
   launch_configuration = aws_launch_configuration.sam-code-test.name
   vpc_zone_identifier  = [aws_subnet.private[0].id, aws_subnet.private[1].id, aws_subnet.private[2].id]
