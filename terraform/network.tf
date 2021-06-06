@@ -1,4 +1,4 @@
-resource aws_vpc main {
+resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
 
   tags = merge(
@@ -7,7 +7,7 @@ resource aws_vpc main {
   )
 }
 
-resource aws_subnet public {
+resource "aws_subnet" "public" {
   count = var.public_subnet_count
 
   vpc_id            = aws_vpc.main.id
@@ -20,7 +20,7 @@ resource aws_subnet public {
   )
 }
 
-resource aws_internet_gateway main {
+resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = merge(
@@ -29,7 +29,7 @@ resource aws_internet_gateway main {
   )
 }
 
-resource aws_route_table public {
+resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   tags = local.tags
@@ -40,14 +40,14 @@ resource aws_route_table public {
   }
 }
 
-resource aws_route_table_association public {
+resource "aws_route_table_association" "public" {
   count = length(aws_subnet.public)
 
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
-resource aws_subnet private {
+resource "aws_subnet" "private" {
   count = var.private_subnet_count
 
   vpc_id            = aws_vpc.main.id
@@ -60,7 +60,7 @@ resource aws_subnet private {
   )
 }
 
-resource aws_eip nat_eip {
+resource "aws_eip" "nat_eip" {
   vpc = true
   tags = merge(
     { Name = var.name },
@@ -69,7 +69,7 @@ resource aws_eip nat_eip {
   depends_on = [aws_internet_gateway.main]
 }
 
-resource aws_nat_gateway nat {
+resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.private[0].id
 
@@ -79,7 +79,7 @@ resource aws_nat_gateway nat {
   )
 }
 
-resource aws_route_table private {
+resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   tags = local.tags
@@ -90,7 +90,7 @@ resource aws_route_table private {
   }
 }
 
-resource aws_route_table_association private {
+resource "aws_route_table_association" "private" {
   count = length(aws_subnet.private)
 
   subnet_id      = aws_subnet.private[count.index].id
