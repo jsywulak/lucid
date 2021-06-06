@@ -1,6 +1,6 @@
 resource "aws_security_group" "sam-code-test" {
-  name        = "sam-code-test"
-  vpc_id      = aws_vpc.main.id
+  name   = "sam-code-test"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     description = "TLS from VPC"
