@@ -1,14 +1,13 @@
 resource "aws_security_group" "sam-code-test" {
-  name        = "allow_tls"
-  description = "Allow TLS inbound traffic"
+  name        = "sam-code-test"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = [aws_vpc.main.cidr_block]
+    description = "TLS from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

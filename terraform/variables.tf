@@ -27,3 +27,8 @@ variable "private_subnet_count" {
   type        = number
   description = "How many private subnets to create"
 }
+
+variable "db_password" {
+  type        = string
+  description = "the password to use for the database"
+}
