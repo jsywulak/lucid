@@ -1,5 +1,5 @@
-resource "aws_security_group" "sam-code-test" {
-  name   = "sam-code-test"
+resource "aws_security_group" "sam-code-test-alb" {
+  name   = "sam-code-test-alb"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -7,7 +7,7 @@ resource "aws_security_group" "sam-code-test" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [aws_vpc.main.cidr_block]
   }
 
   egress {
@@ -23,7 +23,7 @@ resource "aws_alb" "sam-code-test" {
   name               = "sam-code-test"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.sam-code-test.id]
+  security_groups    = [aws_security_group.sam-code-test-alb.id]
   subnets            = aws_subnet.public.*.id
 
   enable_deletion_protection = false

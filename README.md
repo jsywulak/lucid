@@ -16,3 +16,5 @@ Used [awspec](https://github.com/k1LoW/awspec/) for testing. To install and run 
 	asdf install ruby
 	bundle install
 	bundle exec rake spec
+
+*Note*: it assumes your default region from `aws configure` so if you're overriding that for terraform you'll need to do it for awspec, too.
