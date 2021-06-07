@@ -1,12 +1,31 @@
-# Lucid HQ Infrastructure Terraform Code Test #
+# Infrastructure Terraform Project #
 
-Using AWS and the Terraform in this repository to provision the network create a simple web server with associated database.
+Do you like auto scaling groups? Do you like RDS instances? Do you like ALBs fronting it all? [I got the repo for you](https://youtu.be/JGhoLcsr8GA?t=33)!
 
-# Assumptions:
+# Assumptions / Apologies:
 * Gonna just use local state 
 * "sam" is some relevant acronym I'm just not grokking, and should change it all to "jonny"
-* Set up Terraform to prompt for a DB password, but ideally it would be already set.
+* Set up Terraform to prompt for a DB password, but ideally it would be already set by another process outside of Terraform.
 * Gave the RDS instance a specific static identifier to make it easy to lookup; if I was ever gonna run this twice, I'd need to do something else.
+* Did some Terraform output lookups instead of doing something fancy in Ruby so that the tests were independent of the infrastructure; if this was something where it wasn't being closely monitored, I'd want to factor that away.
+
+# Prereqs
+* Have AWS creds set up to a default profile
+* Have Terraform installed
+* Ruby installed
+* jq installed (or be handy with copy / paste )
+* Have the attention span to remember to destroy this 
+
+# Instructions
+
+	terraform init
+	terraform plan
+    terraform apply 
+    open $(terraform output -json lb_dns_name |  jq -r .)
+
+Once you're done, you can tear it down with
+
+	terraform destroy -var=db_password=doesntmatter
 
 # Specs
 
