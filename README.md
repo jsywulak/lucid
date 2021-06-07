@@ -1,6 +1,6 @@
 # Terraform Project #
 
-Do you like auto scaling groups? Do you like RDS instances? Do you like ALBs fronting it all? And maybe you're okay with a couple shortcuts because this isn't production? [Well, I got the repo for you](https://youtu.be/JGhoLcsr8GA?t=31)!
+Do you like auto scaling groups? Do you like RDS instances? Do you like ALBs fronting it all? And maybe you're okay with a couple shortcuts because this isn't production? Well, I got the repo for you!
 
 # Assumptions / Apologies:
 * Gonna just use local state 
