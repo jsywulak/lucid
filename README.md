@@ -37,3 +37,13 @@ Used [awspec](https://github.com/k1LoW/awspec/) for testing. To install and run 
 	bundle exec rake spec
 
 *Note*: it assumes your default region from `aws configure` so if you're overriding that for terraform you'll need to do it for awspec, too.
+
+# Thoughts on furthering it
+
+_How would a future application obtain the load balancer’s DNS name if it wanted to use this service?_
+
+Easiest thing would probably be just to add a Route 53 entry that points to the ALB, and then any consuming applications can point at that.
+
+_What aspects need to be considered to make the code work in a CD pipeline (how does it successfully and safely get into production)?_
+
+You'd probably want to separate the concerns a bit here so that resources with different lifetimes are managed by different Terraform applications (eg the lifecycle of the RDS instance is going to be much much different than the Launch Config). For routine app deployments, you'd have three steps in your pipeline: AMI build; Launch Config Update; ASG Refresh. The ALB and RDS instance should be mostly static, but you could have their own pipeline flows for deploying them. (For the RDS instance, you'd probably want to also have pretty robust backup creation and use as part of it, too.)
